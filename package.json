@@ -1,0 +1,22 @@
+{
+  "name": "@tensorgrid/codex-installer",
+  "version": "0.1.0",
+  "description": "A small Windows installer that configures Codex to use TensorGrid.",
+  "productName": "TensorGrid Codex Setup",
+  "author": "TensorGrid",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "node scripts/sync-design-assets.cjs && node node_modules/electron/cli.js .",
+    "test": "node --test \"test/*.test.cjs\"",
+    "package:win": "npm test && node scripts/sync-design-assets.cjs && node node_modules/electron-builder/cli.js --win nsis --config electron-builder.yml --publish never"
+  },
+  "dependencies": {
+    "smol-toml": "1.6.1"
+  },
+  "devDependencies": {
+    "electron": "42.3.0",
+    "electron-builder": "26.0.12"
+  }
+}

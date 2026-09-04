@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="tg-light">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-tg-theme-bootstrap'; style-src 'self'; font-src 'self'; connect-src 'none'; img-src 'self' data:;">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TensorGrid Codex Setup</title>
+    <script nonce="tg-theme-bootstrap">
+        (() => {
+            try {
+                const mode = localStorage.getItem('tg.installer.theme') || 'system';
+                const dark = mode === 'dark' || (mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+                document.documentElement.classList.toggle('tg-dark', dark);
+                document.documentElement.classList.toggle('tg-light', !dark);
+                document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+            } catch (_error) {
+                document.documentElement.classList.add('tg-light');
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="./tokens.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <main class="shell">
+        <header class="topbar">
+            <div class="brand-lockup">
+                <img class="brand-logo" src="./assets/tensorgrid-mark.svg" width="40" height="40" alt="TensorGrid">
+                <div class="brand-copy">
+                    <p class="eyebrow" data-i18n="brand.eyebrow">TENSORGRID</p>
+                    <h1 data-i18n="brand.title">Codex Setup</h1>
+                </div>
+            </div>
+            <div class="topbar-actions">
+                <label class="select-control compact-control">
+                    <span class="sr-only" data-i18n="language.label">Language</span>
+                    <span class="control-icon" aria-hidden="true">文</span>
+                    <select id="locale" data-i18n-aria-label="language.label">
+                        <option value="en" data-i18n="language.en">English</option>
+                        <option value="fa" data-i18n="language.fa">فارسی</option>
+                        <option value="ar" data-i18n="language.ar">العربية</option>
+                    </select>
+                </label>
+                <label class="select-control compact-control">
+                    <span class="sr-only" data-i18n="theme.label">Theme</span>
+                    <span class="control-icon" aria-hidden="true">◐</span>
+                    <select id="theme" data-i18n-aria-label="theme.label">
+                        <option value="system" data-i18n="theme.system">System</option>
+                        <option value="light" data-i18n="theme.light">Light</option>
+                        <option value="dark" data-i18n="theme.dark">Dark</option>
+                    </select>
+                </label>
+                <button id="refresh-status" class="ghost-button icon-label-button" type="button" data-i18n-aria-label="actions.refresh" data-i18n-title="actions.refresh">
+                    <span class="button-icon" data-icon="refresh" aria-hidden="true"></span>
+                    <span data-i18n="actions.refresh">Refresh status</span>
+                </button>
+            </div>
+        </header>
+
+        <p class="subtitle" data-i18n="brand.subtitle">Securely connect Codex and ChatGPT Desktop to the TensorGrid provider.</p>
+
+        <section id="status-card" class="status-card status-chatgpt" aria-live="polite">
+            <div id="status-icon" class="status-icon" aria-hidden="true"></div>
+            <div class="status-copy">
+                <p id="status-kicker" class="status-kicker" data-i18n="status.kicker">Active Codex route</p>
+                <h2 id="status-title" data-i18n="status.checking">Checking…</h2>
+                <p id="status-description" data-i18n="status.checkingDescription">Provider and ChatGPT Desktop status are being checked.</p>
+                <div class="status-meta">
+                    <code id="status-model" dir="ltr">Current model: default</code>
+                    <code id="status-home" dir="ltr">Codex Home: —</code>
+                    <span id="status-checked">Last checked: —</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="lock-banner" class="lock-banner" hidden role="status" aria-live="polite">
+            <div id="lock-icon" class="lock-icon" aria-hidden="true"></div>
+            <div>
+                <strong id="lock-title" data-i18n="lock.running.title">ChatGPT Desktop must be fully closed</strong>
+                <p id="lock-description" data-i18n="lock.running.description">Quit it from the system tray. This page will check again automatically.</p>
+            </div>
+        </section>
+
+        <section id="error-box" class="notice error" hidden role="alert"></section>
+        <section id="result-notice" class="notice success" hidden role="status" aria-live="polite"></section>
+
+        <section id="active-panel" class="panel active-panel" hidden>
+            <div class="panel-heading">
+                <div>
+                    <p class="section-label" data-i18n="connection.label">Current connection</p>
+                    <h2 data-i18n="connection.tensorgrid">TensorGrid</h2>
+                    <p class="help" data-i18n="connection.help">The stored token is used only by the main process for a read-only check and will not be requested again.</p>
+                </div>
+                <span class="verified-pill"><span class="status-dot" aria-hidden="true"></span><span data-i18n="connection.active">Active</span></span>
+            </div>
+            <div class="active-actions">
+                <button id="change-model" class="secondary icon-label-button" type="button">
+                    <span class="button-icon" data-icon="spark" aria-hidden="true"></span>
+                    <span data-i18n="actions.changeModel">Change model</span>
+                </button>
+                <button id="revert" class="danger-button icon-label-button" type="button">
+                    <span class="button-icon" data-icon="undo" aria-hidden="true"></span>
+                    <span data-i18n="actions.revert">Return to ChatGPT</span>
+                </button>
+            </div>
+            <p id="active-note" class="small-note" data-i18n="connection.revertHelp">Use this action to restore the provider that was active before TensorGrid.</p>
+        </section>
+
+        <section id="setup-panel" class="panel">
+            <div class="section-label" data-i18n="setup.label">Setup</div>
+            <h2 id="setup-heading" data-i18n="setup.title">Connect to TensorGrid</h2>
+            <p class="help" data-i18n="setup.help">A token is requested only when needed. Validation uses GET only; no inference or POST request is sent.</p>
+
+            <label for="token" data-i18n="setup.tokenLabel">TensorGrid token</label>
+            <div class="secret-field">
+                <input id="token" type="password" autocomplete="off" spellcheck="false" data-i18n-placeholder="setup.tokenPlaceholder" data-i18n-aria-label="setup.tokenLabel" placeholder="Enter API token">
+                <button id="toggle-token" class="icon-button" type="button" data-i18n-aria-label="actions.show" data-i18n-title="actions.show">
+                    <span class="button-icon" data-icon="eye" aria-hidden="true"></span>
+                    <span data-i18n="actions.show">Show</span>
+                </button>
+            </div>
+            <button id="load-models" class="primary icon-label-button" type="button">
+                <span class="button-icon" data-icon="check" aria-hidden="true"></span>
+                <span data-i18n="actions.loadModels">Validate token and load models</span>
+            </button>
+            <p id="token-status" class="status" aria-live="polite"></p>
+        </section>
+
+        <section id="model-panel" class="panel model-panel" hidden>
+            <div class="panel-heading">
+                <div>
+                    <p class="section-label" data-i18n="setup.modelLabelSection">Model</p>
+                    <h2 id="model-panel-heading" data-i18n="setup.modelTitle">Choose a Responses model</h2>
+                    <p class="help" data-i18n="setup.modelHelp">Models come from the public TensorGrid catalog and are matched with the models authorized for your token.</p>
+                </div>
+                <button id="refresh-models" class="ghost-button icon-label-button" type="button">
+                    <span class="button-icon" data-icon="refresh" aria-hidden="true"></span>
+                    <span data-i18n="actions.refreshModels">Refresh models</span>
+                </button>
+            </div>
+            <label for="model" data-i18n="setup.modelLabel">Available model</label>
+            <select id="model" dir="ltr"></select>
+            <div id="preview" class="preview" aria-live="polite"></div>
+            <button id="apply" class="primary icon-label-button" type="button">
+                <span class="button-icon" data-icon="arrow" aria-hidden="true"></span>
+                <span data-i18n="actions.apply">Apply settings</span>
+            </button>
+            <p id="apply-status" class="status" aria-live="polite"></p>
+        </section>
+
+        <footer>
+            <span data-i18n="footer.windows">Windows native · no telemetry</span>
+            <span data-i18n="footer.auth">auth.json is never changed</span>
+        </footer>
+    </main>
+    <button id="close" class="close-button" type="button" data-i18n="actions.close">Close</button>
+    <script src="./i18n.js"></script>
+    <script src="./theme.js"></script>
+    <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+The font files in this directory are distributed under the SIL Open Font License, Version 1.1.
+See https://openfontlicense.org/ for the full license text.
+
+Instrument Sans, Martian Mono and Vazirmatn are open-source fonts distributed by their
+respective authors. The installer bundles the files locally so it does not load fonts
+from a remote service at runtime.

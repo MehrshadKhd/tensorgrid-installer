@@ -1,0 +1,304 @@
+/* Portable TensorGrid design-token snapshot used by the standalone installer. */
+/* Regenerate from the TensorGrid frontend with scripts/sync-design-assets.cjs when available. */
+
+/* Source: frontend/src/app/shared/ui/styles/tokens.css */
+
+/* inlined from packages/tensorgrid-ui/styles/tokens.css */
+/* TensorGrid shared design tokens. Keep application CSS semantic. */
+:root {
+  --tg-space-0: 0;
+  --tg-space-1: .25rem;
+  --tg-space-2: .5rem;
+  --tg-space-3: .75rem;
+  --tg-space-4: 1rem;
+  --tg-space-5: 1.5rem;
+  --tg-space-6: 2rem;
+  --tg-space-7: 3rem;
+  --tg-space-8: 4rem;
+
+  --tg-radius-xs: .25rem;
+  --tg-radius-sm: .5rem;
+  --tg-radius-md: .75rem;
+  --tg-radius-lg: 1rem;
+  --tg-radius-xl: 1.5rem;
+  --tg-radius-full: 999px;
+
+  --tg-font-sans: 'Inter', 'Segoe UI', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --tg-font-mono: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, Consolas, monospace;
+  --tg-font-size-xs: .75rem;
+  --tg-font-size-sm: .875rem;
+  --tg-font-size-md: 1rem;
+  --tg-font-size-lg: 1.125rem;
+  --tg-font-size-xl: 1.5rem;
+  --tg-font-size-2xl: 2rem;
+
+  --tg-motion-fast: 150ms;
+  --tg-motion-base: 220ms;
+  --tg-motion-slow: 300ms;
+
+  --tg-color-white: #fff;
+  --tg-color-slate-50: #f8fafc;
+  --tg-color-slate-100: #f1f5f9;
+  --tg-color-slate-200: #e2e8f0;
+  --tg-color-slate-400: #94a3b8;
+  --tg-color-slate-500: #64748b;
+  --tg-color-slate-700: #334155;
+  --tg-color-slate-800: #1e293b;
+  --tg-color-slate-900: #0f172a;
+  --tg-color-slate-950: #020617;
+  --tg-color-cyan-400: #22d3ee;
+  --tg-color-cyan-300: #67e8f9;
+  --tg-color-indigo-400: #818cf8;
+  --tg-color-emerald-400: #34d399;
+  --tg-color-amber-400: #fbbf24;
+  --tg-color-rose-400: #fb7185;
+
+  --tg-bg: var(--tg-color-slate-950);
+  --tg-bg-elevated: #0b1220;
+  --tg-bg-sunken: #050a14;
+  --tg-surface: #111b2d;
+  --tg-surface-hover: #17253b;
+  --tg-surface-raised: #182940;
+  --tg-fg: #eef4ff;
+  --tg-fg-muted: #9aa9bf;
+  --tg-fg-subtle: #71829d;
+  --tg-border: #263955;
+  --tg-border-strong: #3b5272;
+  --tg-primary: var(--tg-color-cyan-400);
+  --tg-primary-hover: var(--tg-color-cyan-300);
+  --tg-accent: var(--tg-color-indigo-400);
+  --tg-success: var(--tg-color-emerald-400);
+  --tg-warning: var(--tg-color-amber-400);
+  --tg-danger: var(--tg-color-rose-400);
+  --tg-focus: #a5f3fc;
+  --tg-shadow-sm: 0 1px 2px rgb(0 0 0 / .18);
+  --tg-shadow-md: 0 12px 30px rgb(0 0 0 / .24);
+  --tg-shadow-lg: 0 24px 70px rgb(0 0 0 / .36);
+}
+
+.tg-light {
+  --tg-bg: var(--tg-color-slate-50);
+  --tg-bg-elevated: var(--tg-color-white);
+  --tg-bg-sunken: var(--tg-color-slate-100);
+  --tg-surface: var(--tg-color-white);
+  --tg-surface-hover: var(--tg-color-slate-100);
+  --tg-surface-raised: var(--tg-color-white);
+  --tg-fg: var(--tg-color-slate-900);
+  --tg-fg-muted: var(--tg-color-slate-500);
+  --tg-fg-subtle: var(--tg-color-slate-400);
+  --tg-border: var(--tg-color-slate-200);
+  --tg-border-strong: var(--tg-color-slate-400);
+  --tg-shadow-sm: 0 1px 2px rgb(15 23 42 / .08);
+  --tg-shadow-md: 0 12px 30px rgb(15 23 42 / .1);
+  --tg-shadow-lg: 0 24px 70px rgb(15 23 42 / .16);
+}
+
+
+/*
+ * TensorGrid Design Tokens
+ * -------------------------------------------------------------
+ * Three-tier token system (primitive -> semantic -> component).
+ * Primitive tokens are theme-agnostic raw values.
+ * Semantic tokens map primitives to intent and switch per theme.
+ * The `.tg-dark` selector overrides semantic tokens for dark mode.
+ *
+ * This file is the single source of truth for color, spacing,
+ * typography, radius, shadow and motion. Both custom components and
+ * Tailwind (via @theme) consume these variables.
+ */
+
+:root {
+  /* ---------- Primitive: spacing (8px grid) ---------- */
+  --tg-space-0: 0;
+  --tg-space-half: 0.125rem; /* 2 */
+  --tg-space-1: 0.25rem; /* 4 */
+  --tg-space-1-5: 0.375rem; /* 6 */
+  --tg-space-2: 0.5rem; /* 8 */
+  --tg-space-2-5: 0.625rem; /* 10 */
+  --tg-space-3: 0.75rem; /* 12 */
+  --tg-space-3-5: 0.875rem; /* 14 */
+  --tg-space-4: 1rem; /* 16 */
+  --tg-space-5: 1.5rem; /* 24 */
+  --tg-space-6: 2rem; /* 32 */
+  --tg-space-7: 3rem; /* 48 */
+  --tg-space-8: 4rem; /* 64 */
+
+  /* ---------- Primitive: radius ---------- */
+  --tg-radius-xs: 0.25rem;
+  --tg-radius-sm: 0.5rem;
+  --tg-radius-md: 0.75rem;
+  --tg-radius-lg: 1rem;
+  --tg-radius-xl: 1.5rem;
+  --tg-radius-full: 999px;
+
+  /* ---------- Primitive: color palette ----------
+   * Warm neutral ramp on hue 70 with an amber brand and a teal accent.
+   * The `slate-*` names are kept for continuity with existing call sites;
+   * the values are warm, not cool. Lower numbers are lighter.
+   */
+  --tg-color-white: #ffffff;
+  --tg-color-black: oklch(12% 0.012 70);
+
+  --tg-color-brand-400: oklch(78% 0.14 70);
+  --tg-color-brand-500: oklch(72% 0.15 70);
+  --tg-color-brand-600: oklch(62% 0.15 70);
+  --tg-color-brand-700: oklch(50% 0.16 70);
+
+  --tg-color-accent-400: oklch(80% 0.08 190);
+  --tg-color-accent-500: oklch(45% 0.09 190);
+
+  --tg-color-slate-0: oklch(99% 0.005 70);
+  --tg-color-slate-50: oklch(97% 0.008 70);
+  --tg-color-slate-100: oklch(93% 0.005 70);
+  --tg-color-slate-200: oklch(88% 0.01 70);
+  --tg-color-slate-300: oklch(85% 0.012 70);
+  --tg-color-slate-400: oklch(70% 0.012 70);
+  --tg-color-slate-500: oklch(58% 0.012 70);
+  --tg-color-slate-600: oklch(46% 0.01 70);
+  --tg-color-slate-700: oklch(32% 0.018 70);
+  --tg-color-slate-800: oklch(27% 0.016 70);
+  --tg-color-slate-900: oklch(23% 0.016 70);
+  --tg-color-slate-950: oklch(18% 0.014 70);
+
+  --tg-color-success-400: oklch(68% 0.17 145);
+  --tg-color-success-500: oklch(58% 0.16 145);
+  /* Warning sits on hue 45 so it stays distinct from the amber brand (hue 70). */
+  --tg-color-warning-400: oklch(78% 0.15 45);
+  --tg-color-warning-500: oklch(70% 0.16 45);
+  --tg-color-danger-400: oklch(68% 0.19 25);
+  --tg-color-danger-500: oklch(58% 0.21 25);
+  --tg-color-info-400: var(--tg-color-accent-400);
+  --tg-color-info-500: var(--tg-color-accent-500);
+
+  /* ---------- Primitive: typography ---------- */
+  --tg-font-sans:
+    'Instrument Sans', 'Segoe UI', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --tg-font-mono: 'Martian Mono', 'SFMono-Regular', ui-monospace, 'Cascadia Code', monospace;
+
+  --tg-text-caption: 0.75rem;
+  --tg-text-body-sm: 0.8125rem;
+  --tg-text-body: 0.9375rem;
+  --tg-text-h3: 1.125rem;
+  --tg-text-h2: 1.5rem;
+  --tg-text-h1: 2rem;
+  --tg-text-display: clamp(2.25rem, 4vw, 3.25rem);
+
+  --tg-weight-regular: 400;
+  --tg-weight-medium: 500;
+  --tg-weight-semibold: 600;
+  --tg-weight-bold: 700;
+  --tg-weight-extrabold: 800;
+
+  /* ---------- Primitive: motion ---------- */
+  --tg-motion-fast: 150ms;
+  --tg-motion-base: 220ms;
+  --tg-motion-slow: 300ms;
+  --tg-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---------- Primitive: z-index ---------- */
+  --tg-z-base: 0;
+  --tg-z-sticky: 100;
+  --tg-z-drawer: 200;
+  --tg-z-overlay: 300;
+  --tg-z-modal: 400;
+  --tg-z-toast: 500;
+
+  /* ---------- Semantic: light theme (default) ---------- */
+  --tg-bg: var(--tg-color-slate-50);
+  --tg-bg-elevated: var(--tg-color-slate-0);
+  --tg-bg-sunken: var(--tg-color-slate-100);
+  --tg-surface: var(--tg-color-slate-0);
+  --tg-surface-raised: var(--tg-color-slate-0);
+  --tg-surface-hover: var(--tg-color-slate-100);
+
+  --tg-fg: var(--tg-color-slate-900);
+  --tg-fg-muted: var(--tg-color-slate-600);
+  --tg-fg-subtle: var(--tg-color-slate-500);
+  --tg-fg-on-primary: var(--tg-color-slate-0);
+
+  --tg-border: var(--tg-color-slate-200);
+  --tg-border-strong: var(--tg-color-slate-300);
+
+  --tg-primary: var(--tg-color-brand-600);
+  --tg-primary-hover: var(--tg-color-brand-700);
+  /* Deeper step of the brand, for brand-coloured text that needs body contrast. */
+  --tg-primary-emphasis: var(--tg-color-brand-700);
+  --tg-primary-contrast: var(--tg-color-slate-0);
+  --tg-accent: var(--tg-color-accent-500);
+
+  --tg-success: var(--tg-color-success-500);
+  --tg-warning: var(--tg-color-warning-500);
+  --tg-danger: var(--tg-color-danger-500);
+  --tg-info: var(--tg-color-info-500);
+
+  --tg-focus-ring: color-mix(in oklab, var(--tg-primary) 45%, transparent);
+  --tg-shadow-sm: 0 1px 2px rgba(41, 30, 15, 0.08);
+  --tg-shadow-md: 0 8px 24px rgba(41, 30, 15, 0.1);
+  --tg-shadow-lg: 0 20px 48px rgba(41, 30, 15, 0.16);
+
+  /* ---------- Semantic: scrollbar ---------- */
+  --tg-scrollbar-size: 0.625rem;
+  --tg-scrollbar-radius: var(--tg-radius-full);
+  --tg-scrollbar-track: transparent;
+  --tg-scrollbar-thumb: color-mix(in oklab, var(--tg-color-slate-400) 55%, transparent);
+  --tg-scrollbar-thumb-hover: color-mix(in oklab, var(--tg-primary) 55%, var(--tg-color-slate-500));
+  --tg-scrollbar-thumb-active: color-mix(
+    in oklab,
+    var(--tg-primary) 70%,
+    var(--tg-color-slate-600)
+  );
+}
+
+/* Persian UI uses Vazirmatn (loaded in index.html). Applied when LocaleService sets lang=fa. */
+html[lang='fa'] {
+  --tg-font-sans: 'Vazirmatn', 'Segoe UI', Tahoma, ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------- Semantic: dark theme ---------- */
+.tg-dark {
+  --tg-bg: var(--tg-color-slate-950);
+  --tg-bg-elevated: var(--tg-color-slate-900);
+  --tg-bg-sunken: var(--tg-color-black);
+  --tg-surface: color-mix(in oklab, var(--tg-color-slate-900) 92%, transparent);
+  --tg-surface-raised: var(--tg-color-slate-900);
+  --tg-surface-hover: var(--tg-color-slate-800);
+
+  --tg-fg: var(--tg-color-slate-50);
+  --tg-fg-muted: var(--tg-color-slate-400);
+  --tg-fg-subtle: var(--tg-color-slate-500);
+  --tg-fg-on-primary: var(--tg-color-black);
+
+  --tg-border: var(--tg-color-slate-700);
+  --tg-border-strong: var(--tg-color-slate-600);
+
+  --tg-primary: var(--tg-color-brand-500);
+  --tg-primary-hover: var(--tg-color-brand-400);
+  --tg-primary-emphasis: var(--tg-color-brand-400);
+  /* The dark-mode brand is light enough that it needs dark text on top. */
+  --tg-primary-contrast: var(--tg-color-black);
+  --tg-accent: var(--tg-color-accent-400);
+
+  --tg-success: var(--tg-color-success-400);
+  --tg-warning: var(--tg-color-warning-400);
+  --tg-danger: var(--tg-color-danger-400);
+  --tg-info: var(--tg-color-info-400);
+
+  --tg-focus-ring: color-mix(in oklab, var(--tg-primary) 55%, transparent);
+  --tg-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --tg-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --tg-shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
+
+  --tg-scrollbar-track: color-mix(in oklab, var(--tg-color-slate-900) 40%, transparent);
+  --tg-scrollbar-thumb: color-mix(in oklab, var(--tg-color-slate-500) 65%, transparent);
+  --tg-scrollbar-thumb-hover: color-mix(in oklab, var(--tg-primary) 60%, var(--tg-color-slate-400));
+  --tg-scrollbar-thumb-active: color-mix(in oklab, var(--tg-accent) 45%, var(--tg-primary));
+}
+
+/* Respect reduced motion preferences globally. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tg-motion-fast: 0ms;
+    --tg-motion-base: 0ms;
+    --tg-motion-slow: 0ms;
+  }
+}

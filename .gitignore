@@ -1,0 +1,9 @@
+dist/
+dist-release/
+dist-*/
+npm-cache/
+%TEMP%/
+node_modules/
+renderer/tokens.css
+renderer/assets/
+resources/icon.ico
