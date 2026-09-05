@@ -1,6 +1,6 @@
 {
   "name": "@tensorgrid/codex-installer",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "A small Windows installer that configures Codex to use TensorGrid.",
   "productName": "TensorGrid Codex Setup",
   "author": "TensorGrid",

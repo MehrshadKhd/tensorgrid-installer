@@ -2,9 +2,9 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
 
 const installerRoot = path.resolve(__dirname, '..');
-const repoRoot = path.resolve(installerRoot, '..', '..');
 const rendererRoot = path.join(installerRoot, 'renderer');
 const assetRoot = path.join(rendererRoot, 'assets');
 const fontRoot = path.join(assetRoot, 'fonts');
@@ -12,6 +12,18 @@ const sourceAssetRoot = path.join(installerRoot, 'source-assets');
 const sourceFontRoot = path.join(sourceAssetRoot, 'fonts');
 const resourcesRoot = path.join(installerRoot, 'resources');
 const portableBrandRoot = path.join(sourceAssetRoot, 'brand');
+
+function resolveRepoRoot() {
+    const candidates = [
+        path.resolve(installerRoot, '..', 'TensorGrid'),
+        path.resolve(installerRoot, '..'),
+        path.resolve(installerRoot, '..', '..')
+    ];
+    return candidates.find(candidate => fs.existsSync(path.join(candidate, 'frontend', 'public', 'icons', 'icon.svg')))
+        || candidates[candidates.length - 1];
+}
+
+const repoRoot = resolveRepoRoot();
 
 function ensureDirectory(directory) {
     fs.mkdirSync(directory, { recursive: true });
@@ -63,6 +75,33 @@ function resolveAssetSource(monorepoPath, portablePath) {
     return fs.existsSync(monorepoPath) ? monorepoPath : portablePath;
 }
 
+function writeWindowsIcon() {
+    const inputPath = resolveAssetSource(
+        path.join(repoRoot, 'frontend', 'public', 'icons', 'android', 'launchericon-512x512.png'),
+        path.join(portableBrandRoot, 'tensorgrid-mark-512.png')
+    );
+    const scriptPath = path.join(__dirname, 'create-windows-icon.ps1');
+    const powershell = process.platform === 'win32' ? 'powershell.exe' : 'pwsh';
+    const result = spawnSync(powershell, [
+        '-NoProfile',
+        '-NonInteractive',
+        '-ExecutionPolicy',
+        'Bypass',
+        '-File',
+        scriptPath,
+        '-InputPath',
+        inputPath,
+        '-OutputPath',
+        path.join(resourcesRoot, 'icon.ico')
+    ], { stdio: 'inherit' });
+    if (result.error) {
+        throw result.error;
+    }
+    if (result.status !== 0) {
+        throw new Error(`Windows icon generation failed with exit code ${result.status}`);
+    }
+}
+
 function syncDesignAssets() {
     ensureDirectory(assetRoot);
     ensureDirectory(fontRoot);
@@ -95,13 +134,7 @@ function syncDesignAssets() {
         ),
         path.join(assetRoot, 'tensorgrid-mark-512.png')
     );
-    copyAsset(
-        resolveAssetSource(
-            path.join(repoRoot, 'frontend', 'public', 'favicon.ico'),
-            path.join(portableBrandRoot, 'icon.ico')
-        ),
-        path.join(resourcesRoot, 'icon.ico')
-    );
+    writeWindowsIcon();
 }
 
 syncDesignAssets();

@@ -3,6 +3,7 @@ productName: TensorGrid Codex Setup
 copyright: Copyright © 2026 TensorGrid
 icon: resources/icon.ico
 asar: true
+afterPack: scripts/after-pack.cjs
 directories:
   output: dist
   buildResources: resources
@@ -11,9 +12,13 @@ files:
   - preload.cjs
   - src/**/*
   - renderer/**/*
+  - resources/icon.ico
   - package.json
   - '!test/**'
   - '!*.log'
+extraResources:
+  - from: resources/icon.ico
+    to: icon.ico
 win:
   icon: resources/icon.ico
   target:
@@ -24,6 +29,7 @@ nsis:
   installerIcon: resources/icon.ico
   uninstallerIcon: resources/icon.ico
   installerHeaderIcon: resources/icon.ico
+  include: scripts/nsis-installer.nsh
   oneClick: false
   perMachine: false
   allowToChangeInstallationDirectory: true

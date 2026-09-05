@@ -603,7 +603,7 @@ class InstallService {
         };
     }
 
-    async revert() {
+    async revert({ allowDrift = false } = {}) {
         this.assertMutationAllowed();
 
         const paths = this.resolvePaths();
@@ -621,7 +621,7 @@ class InstallService {
         const authSnapshot = readSnapshot(paths.authPath);
         const manifestSnapshot = readSnapshot(paths.manifestPath);
 
-        if (manifest.after && (
+        if (!allowDrift && manifest.after && (
             !summariesEqual(snapshotSummary(configSnapshot), manifest.after.config)
             || !summariesEqual(snapshotSummary(envSnapshot), manifest.after.env)
         )) {

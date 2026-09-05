@@ -116,7 +116,7 @@ function createWindow() {
         show: false,
         autoHideMenuBar: true,
         title: 'TensorGrid Codex Setup',
-        icon: path.join(__dirname, 'renderer', 'assets', 'tensorgrid-mark-512.png'),
+        icon: path.join(__dirname, 'resources', 'icon.ico'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.cjs'),
             contextIsolation: true,
@@ -166,9 +166,11 @@ function registerIpc() {
         }
     });
 
-    ipcMain.handle('setup:revert', async () => {
+    ipcMain.handle('setup:revert', async (_event, options) => {
         try {
-            const result = await service.revert();
+            const result = await service.revert({
+                allowDrift: Boolean(options?.allowDrift)
+            });
             lastConnectionCheckAt = 0;
             await refreshState({ verify: true, force: true });
             return ok(result);

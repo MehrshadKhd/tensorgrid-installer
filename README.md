@@ -28,4 +28,4 @@ On launch it inspects the user-level Codex configuration and shows whether the a
 
 While the native ChatGPT Desktop process (`ChatGPT.exe`) is running, all file-changing controls are disabled. The installer never terminates ChatGPT. After the user quits it from the system tray, the state refreshes automatically.
 
-Enabling TensorGrid creates a timestamped, user-protected backup and a metadata-only activation manifest. `Revert to ChatGPT` restores the exact pre-TensorGrid `config.toml` and `.env` state, while preserving `auth.json` byte-for-byte and timestamp-for-timestamp. If the files were changed outside the installer after activation, revert stops instead of overwriting them.
+Enabling TensorGrid creates a timestamped, user-protected backup and a metadata-only activation manifest. `Revert to ChatGPT` restores the exact pre-TensorGrid `config.toml` and `.env` state, while preserving `auth.json` byte-for-byte and timestamp-for-timestamp. If the files were changed outside the installer after activation, the UI asks for explicit confirmation; the current files are backed up before the original state is restored.

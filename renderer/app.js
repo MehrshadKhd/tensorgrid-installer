@@ -44,7 +44,6 @@ const mutationControls = [
     toggleToken,
     loadModelsButton,
     changeModelButton,
-    revertButton,
     refreshModelsButton,
     applyButton,
     modelSelect
@@ -222,6 +221,10 @@ function renderStatus() {
     revertButton.hidden = !isTensorGrid;
     activeNote.textContent = state?.revertBlockedReason === 'CONFIG_DRIFT'
         ? translate('connection.drift')
+        : isTensorGrid && state?.chatgptProcess === 'running'
+            ? translate('error.CHATGPT_RUNNING')
+        : isTensorGrid && state?.chatgptProcess === 'unknown'
+            ? translate('error.PROCESS_CHECK_FAILED')
         : isTensorGrid && !state.revertAvailable
             ? translate('connection.snapshotMissing')
             : translate('connection.revertHelp');
@@ -247,8 +250,15 @@ function renderControls() {
     refreshStatusButton.disabled = busy;
     closeButton.disabled = false;
     if (state?.provider === 'tensorgrid') {
-        revertButton.disabled = !allowed || !state.revertAvailable;
+        // Return performs a fresh state check before restoring. Keep it
+        // clickable while ChatGPT is running so the user gets a clear reason
+        // instead of a silent no-op, and so a just-closed process is detected
+        // immediately rather than waiting for the polling tick.
+        revertButton.disabled = busy
+            || (!state.revertAvailable && state.revertBlockedReason !== 'CONFIG_DRIFT');
         changeModelButton.disabled = !allowed || state.connection !== 'tensorgrid-verified';
+    } else {
+        revertButton.disabled = true;
     }
 }
 
@@ -366,17 +376,37 @@ async function applySetup() {
 }
 
 async function revertSetup() {
-    if (!state?.canMutate || !state.revertAvailable || busy) {
-        return;
-    }
-    if (!window.confirm(translate('confirm.revert'))) {
+    if (busy) {
         return;
     }
 
     clearError();
     setBusy(true, revertButton, 'actions.reverting');
     try {
-        const result = await window.codexSetup.revert();
+        // The process watcher is intentionally asynchronous. Refresh here so
+        // a click immediately after quitting ChatGPT uses the current state.
+        const latest = await window.codexSetup.getState();
+        if (!latest.ok) {
+            throw latest.error;
+        }
+        state = latest.data;
+        renderStatus();
+
+        const allowDrift = state?.revertBlockedReason === 'CONFIG_DRIFT';
+        if (!state?.revertAvailable && !allowDrift) {
+            throw { code: state?.revertBlockedReason || 'REVERT_UNAVAILABLE' };
+        }
+        if (!state.canMutate) {
+            throw { code: state.chatgptProcess === 'running' ? 'CHATGPT_RUNNING' : 'PROCESS_CHECK_FAILED' };
+        }
+        const confirmation = allowDrift
+            ? `${translate('connection.drift')}\n\n${translate('confirm.revert')}`
+            : translate('confirm.revert');
+        if (!window.confirm(confirmation)) {
+            return;
+        }
+
+        const result = await window.codexSetup.revert({ allowDrift });
         if (!result.ok) {
             throw result.error;
         }

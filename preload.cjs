@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('codexSetup', {
     getState: () => ipcRenderer.invoke('setup:get-state'),
     listModels: token => ipcRenderer.invoke('setup:list-models', token),
     apply: payload => ipcRenderer.invoke('setup:apply', payload),
-    revert: () => ipcRenderer.invoke('setup:revert'),
+    revert: options => ipcRenderer.invoke('setup:revert', options),
     onStateChanged: callback => {
         const listener = (_event, state) => callback(state);
         ipcRenderer.on('setup:state-changed', listener);

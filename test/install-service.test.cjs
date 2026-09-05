@@ -271,6 +271,30 @@ test('revert refuses to overwrite files changed after activation', async () => {
     assert.match(fs.readFileSync(configPath, 'utf8'), /user changed this/);
 });
 
+test('revert can explicitly restore after a confirmed configuration drift', async () => {
+    const home = tempHome();
+    const codexHome = path.join(home, '.codex');
+    fs.mkdirSync(codexHome, { recursive: true });
+    const configPath = path.join(codexHome, 'config.toml');
+    const originalConfig = 'model = "gpt-5.6-luna"\n';
+    fs.writeFileSync(configPath, originalConfig);
+
+    const service = new InstallService({
+        client: fakeClient(),
+        platform: 'win32',
+        environment: { USERPROFILE: home, USERNAME: 'tester', CODEX_HOME: '' },
+        secureFile: async () => undefined,
+        processProbe: () => 'closed'
+    });
+
+    await service.apply({ token: 'tg_test_token', modelId: 'auto:gpt-5-5' });
+    fs.appendFileSync(configPath, '# harmless lifecycle update\n');
+    await service.revert({ allowDrift: true });
+
+    assert.equal(fs.readFileSync(configPath, 'utf8'), originalConfig);
+    assert.equal(service.getState().provider, 'chatgpt');
+});
+
 test('manual restoration to the pre-TensorGrid snapshot clears drift and allows re-apply', async () => {
     const home = tempHome();
     const codexHome = path.join(home, '.codex');
